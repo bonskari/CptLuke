@@ -15,9 +15,12 @@ def generate_image(prompt: str, output_path: str):
     """
     api_token = os.getenv("HF_API_TOKEN")
     if not api_token:
-        print("Error: HF_API_TOKEN environment variable not set.", file=sys.stderr)
-        print("Please get your Hugging Face API token from https://huggingface.co/settings/tokens", file=sys.stderr)
-        sys.exit(1)
+        if len(sys.argv) > 1:
+            api_token = sys.argv[1]
+        else:
+            print("Error: HF_API_TOKEN environment variable not set and no token provided as argument.", file=sys.stderr)
+            print("Please get your Hugging Face API token from https://huggingface.co/settings/tokens", file=sys.stderr)
+            sys.exit(1)
 
     API_URL = "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0"
     headers = {"Authorization": f"Bearer {api_token}"}
@@ -63,9 +66,13 @@ if __name__ == "__main__":
         ("seamless dark futuristic wall paneling texture, sci-fi, metallic, subtle glowing patterns", "wall_paneling.png"),
         ("seamless dark grey console casing texture, sci-fi, worn metal, subtle details", "console_casing.png"),
         ("futuristic blue interface screen texture, glowing, abstract patterns, digital", "screen_interface.png"),
+        ("breathtaking view of a distant galaxy, stars, nebula, deep space", "space_view.png"),
     ]
 
     for prompt, filename in textures:
         full_path = os.path.join(base_dir, filename)
-        print(f"Generating {filename}...")
-        generate_image(prompt, full_path)
+        if not os.path.exists(full_path):
+            print(f"Generating {filename}...")
+            generate_image(prompt, full_path)
+        else:
+            print(f"Skipping {filename} as it already exists.")
