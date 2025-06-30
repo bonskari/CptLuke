@@ -4,7 +4,7 @@ import sys
 from PIL import Image
 from io import BytesIO
 
-def generate_image(prompt: str, output_path: str):
+def generate_image(prompt: str, output_path: str, api_token: str):
     """
     Generates an image using the Hugging Face Inference API for Stable Diffusion,
     then converts it to PNG.
@@ -57,22 +57,17 @@ def generate_image(prompt: str, output_path: str):
         sys.exit(1)
 
 if __name__ == "__main__":
-    # Hardcoded texture generation
+    if len(sys.argv) < 4:
+        print("Usage: python generate_texture.py <HF_API_TOKEN> <PROMPT> <OUTPUT_FILENAME>", file=sys.stderr)
+        sys.exit(1)
+
+    api_token = sys.argv[1]
+    prompt = sys.argv[2]
+    filename = sys.argv[3]
+
     base_dir = os.path.join("assets", "textures")
     os.makedirs(base_dir, exist_ok=True)
 
-    textures = [
-        ("seamless dark futuristic floor plating texture, sci-fi, metallic, subtle glowing lines", "floor_plating.png"),
-        ("seamless dark futuristic wall paneling texture, sci-fi, metallic, subtle glowing patterns", "wall_paneling.png"),
-        ("seamless dark grey console casing texture, sci-fi, worn metal, subtle details", "console_casing.png"),
-        ("futuristic blue interface screen texture, glowing, abstract patterns, digital", "screen_interface.png"),
-        ("breathtaking view of a distant galaxy, stars, nebula, deep space", "space_view.png"),
-    ]
-
-    for prompt, filename in textures:
-        full_path = os.path.join(base_dir, filename)
-        if not os.path.exists(full_path):
-            print(f"Generating {filename}...")
-            generate_image(prompt, full_path)
-        else:
-            print(f"Skipping {filename} as it already exists.")
+    full_path = os.path.join(base_dir, filename)
+    print(f"Generating {filename}...")
+    generate_image(prompt, full_path, api_token)

@@ -9,6 +9,7 @@ use bevy_rapier3d::prelude::*;
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
+        .insert_resource(ClearColor(Color::BLACK))
         .add_plugins(RapierPhysicsPlugin::<NoUserData>::default())
         .insert_resource(RapierConfiguration { 
             gravity: Vec3::new(0.0, -9.81, 0.0), 
@@ -16,8 +17,17 @@ fn main() {
         })
         
         .add_systems(Startup, setup)
-        .add_systems(Update, (player_movement_system, grab_cursor, interact_with_consoles, update_screen_effect))
+        .add_systems(Update, (player_movement_system, grab_cursor, interact_with_consoles, update_screen_effect, exit_on_esc))
         .run();
+}
+
+fn exit_on_esc(
+    keyboard_input: Res<ButtonInput<KeyCode>>,
+    mut app_exit_events: EventWriter<bevy::app::AppExit>,
+) {
+    if keyboard_input.just_pressed(KeyCode::Escape) {
+        app_exit_events.send(bevy::app::AppExit);
+    }
 }
 
 #[derive(Component)]

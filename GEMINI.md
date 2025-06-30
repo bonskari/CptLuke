@@ -21,3 +21,17 @@ This `GEMINI.md` file provides context and preferences for the Gemini AI agent w
 *   Improving visual fidelity (textures, lighting).
 *   Ensuring robust physics and collision detection.
 *   Enhancing environmental details.
+
+## 3D Model Generation (InstantMesh)
+
+**Goal:** Utilize InstantMesh for generating 3D models (spaceships, aliens, spaceship interiors) from single 2D images.
+
+**Setup Steps:**
+1.  **Clone Repository:** `git clone https://github.com/TencentARC/InstantMesh InstantMesh`
+2.  **Install Dependencies:** `pip install -r InstantMesh/requirements.txt` (Requires "Desktop development with C++" workload from Visual Studio Build Tools on Windows).
+3.  **Run Generation:** Use InstantMesh's scripts (e.g., `run.py` or `app.py` for Gradio demo) to generate `.obj` or `.gltf` models from 2D input images.
+
+**Usage:**
+*   Place 2D input images in a designated folder.
+*   Run InstantMesh generation script, specifying input image and desired output path (e.g., `assets/models/`).
+*   Import generated `.obj` or `.gltf` models into the Bevy project using `asset_server.load()`.
