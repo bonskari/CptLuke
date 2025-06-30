@@ -72,11 +72,11 @@ fn setup(
     commands.spawn((
         Player,
         Camera3dBundle {
-            transform: Transform::from_xyz(0.0, 1.5, 4.0).looking_at(Vec3::new(0.0, 1.5, 0.0), Vec3::Y),
+            transform: Transform::from_xyz(0.0, 1.2, 4.0).looking_at(Vec3::new(0.0, 1.0, 0.0), Vec3::Y),
             ..default()
         },
         RigidBody::Dynamic,
-        Collider::capsule_y(0.5, 0.3),
+        Collider::capsule_y(0.9, 0.3),
         Velocity::zero(),
         LockedAxes::ROTATION_LOCKED,
     ));
@@ -227,28 +227,28 @@ fn setup(
             .with_children(|parent| {
                 // Console base
                 parent.spawn(PbrBundle {
-                    mesh: meshes.add(Mesh::from(Cuboid::new(1.5, 0.8, 0.8))),
+                    mesh: meshes.add(Mesh::from(Cuboid::new(1.5, 0.6, 0.8))),
                     material: materials.add(StandardMaterial {
                         base_color_texture: Some(asset_server.load("textures/console_casing.png")),
                         perceptual_roughness: 0.8,
                         metallic: 0.1,
                         ..default()
                     }),
-                    transform: Transform::from_xyz(0.0, 0.4, 0.0),
+                    transform: Transform::from_xyz(0.0, 0.3, 0.0),
                     ..default()
-                }).insert(Collider::cuboid(0.75, 0.4, 0.4));
+                }).insert(Collider::cuboid(0.75, 0.3, 0.4));
 
                 // Console top part
                 parent.spawn(PbrBundle {
-                    mesh: meshes.add(Mesh::from(Cuboid::new(1.3, 0.2, 0.7))),
+                    mesh: meshes.add(Mesh::from(Cuboid::new(1.3, 0.1, 0.7))),
                     material: materials.add(StandardMaterial::from(Color::rgb(0.3, 0.3, 0.3))),
-                    transform: Transform::from_xyz(0.0, 0.9, 0.0),
+                    transform: Transform::from_xyz(0.0, 0.65, 0.0),
                     ..default()
-                }).insert(Collider::cuboid(0.65, 0.1, 0.35));
+                }).insert(Collider::cuboid(0.65, 0.05, 0.35));
 
                 // Console screen
                 parent.spawn(PbrBundle {
-                    mesh: meshes.add(Mesh::from(Rectangle::new(1.0, 0.5))),
+                    mesh: meshes.add(Mesh::from(Rectangle::new(1.0, 0.4))),
                     material: materials.add(StandardMaterial {
                         base_color_texture: Some(asset_server.load("textures/screen_interface.png")),
                         emissive: Color::rgb(0.0, 0.8, 0.0) * 5.0, // Brighter greenish glow
@@ -256,9 +256,9 @@ fn setup(
                         metallic: 0.0,
                         ..default()
                     }),
-                    transform: Transform::from_xyz(0.0, 1.0, -0.35),
+                    transform: Transform::from_xyz(0.0, 0.7, -0.35),
                     ..default()
-                }).insert(Collider::cuboid(0.5, 0.25, 0.01))
+                }).insert(Collider::cuboid(0.5, 0.2, 0.01))
                 .insert(ScreenEffect { initial_emissive_color: Color::rgb(0.0, 0.8, 0.0), time_elapsed: 0.0 });
             })
             .insert(Interactable);
